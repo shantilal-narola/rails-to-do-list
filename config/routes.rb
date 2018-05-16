@@ -9,7 +9,9 @@ Rails.application.routes.draw do
     # From here Api routes for Mobile App starts
     namespace :v1 do
 
-      resources :todos
+      resources :todos do
+        put 'is_completed', on: :member
+      end
 
       resources :sessions, only: [], path: '' do
         collection do

@@ -1,7 +1,7 @@
 class Api::V1::TodosController < Api::V1::BaseController
 
 	before_action :login_required
-	before_action :set_todo, only: [:show, :edit, :update, :destroy]
+	before_action :set_todo, only: [:show, :edit, :update, :destroy, :is_completed]
 
 	# GET /admin/v1/todos
 	def index
@@ -49,6 +49,16 @@ class Api::V1::TodosController < Api::V1::BaseController
 		end
 	end
 
+	# PATCH/PUT /todos/1
+	# PATCH/PUT /todos/1.json
+	def is_completed
+		if @todo.update(is_completed: !@todo.is_completed)
+			render_data({ todos: @todo.as_api_response(:todo_list) }, "Todo was successfully updated.")
+		else
+			error_data( 'Errors while create new todo...!!!!' )
+		end
+	end
+
 	private
 
 	# Use callbacks to share common setup or constraints between actions.
@@ -58,7 +68,7 @@ class Api::V1::TodosController < Api::V1::BaseController
 
 	# Never trust parameters from the scary internet, only allow the white list through.
 	def todo_params
-		params.permit(:data, :due_date, :priority, :user)
+		params.permit(:data, :due_date, :priority, :is_completed, :user)
 	end
 
 end

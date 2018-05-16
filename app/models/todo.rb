@@ -8,6 +8,7 @@ class Todo < ApplicationRecord
     t.add :data
     t.add :due_date
     t.add :priority
+    t.add :is_completed
     t.add :user_id
   end
 end
